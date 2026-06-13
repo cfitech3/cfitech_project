@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% comment %}TEMPLATE: formations/inscription_success.html{% endcomment %}
+
+
+{% block content %}
+<section class="section-py">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 text-center" data-aos="fade-up">
+        <div class="success-card">
+          <div class="success-icon">
+            <i data-lucide="check-circle" width="64"></i>
+          </div>
+          <h2>Inscription enregistrée !</h2>
+          <p class="lead">Merci <strong>{{ inscription.full_name }}</strong>, votre demande a bien été reçue.</p>
+
+          <div class="success-reference">
+            <span>Référence de dossier</span>
+            <strong>{{ inscription.reference }}</strong>
+          </div>
+
+          <div class="success-details">
+            <div class="sd-item">
+              <i data-lucide="book-open" width="16"></i>
+              <span>{{ inscription.formation.title }}</span>
+            </div>
+            <div class="sd-item">
+              <i data-lucide="phone" width="16"></i>
+              <span>Nous vous appellerons au {{ inscription.phone }}</span>
+            </div>
+            <div class="sd-item">
+              <i data-lucide="clock" width="16"></i>
+              <span>Confirmation sous 24 heures ouvrées</span>
+            </div>
+          </div>
+
+          <p class="text-muted mt-4">Conservez votre référence de dossier. En attendant, vous pouvez nous contacter sur WhatsApp.</p>
+
+          <div class="d-flex gap-3 justify-content-center mt-4 flex-wrap">
+            <a href="https://wa.me/{{ site_config.whatsapp }}?text=Bonjour%2C%20ma%20référence%20d%27inscription%20est%20{{ inscription.reference }}."
+               target="_blank" rel="noopener" class="btn btn-whatsapp">
+              Confirmer sur WhatsApp
+            </a>
+            <a href="{% url 'formations:list' %}" class="btn btn-outline-cfi">Voir d'autres formations</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.success-card { background:var(--white); border-radius:var(--radius-xl); padding:48px; box-shadow:var(--shadow-lg); border:1px solid var(--gray-light); }
+.success-icon { color:var(--success); margin-bottom:24px; }
+.success-reference { background:var(--blue-pale); border-radius:var(--radius-lg); padding:20px; margin:24px 0; }
+.success-reference span { display:block; font-size:.85rem; color:var(--text-muted); margin-bottom:8px; }
+.success-reference strong { font-family:var(--font-display); font-size:1.6rem; color:var(--blue-mid); letter-spacing:.1em; }
+.success-details { display:flex; flex-direction:column; gap:12px; text-align:left; }
+.sd-item { display:flex; align-items:center; gap:10px; font-size:.95rem; padding:10px; background:var(--off-white); border-radius:var(--radius-md); }
+</style>
+{% endblock %}

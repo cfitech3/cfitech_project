@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Page Header -->
+<div class="page-header">
+  <div class="page-header-overlay"></div>
+  <div class="container page-header-content">
+    <h1 data-aos="fade-up">Formulaire d'inscription</h1>
+    <nav aria-label="breadcrumb" data-aos="fade-up" data-aos-delay="100">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Accueil</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'formations:list' %}">Formations</a></li>
+        <li class="breadcrumb-item active">Inscription</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<section class="section-py">
+  <div class="container">
+    <div class="row justify-content-center g-5">
+
+      <!-- Formulaire principal -->
+      <div class="col-lg-7" data-aos="fade-right">
+        <div class="inscription-form-card">
+          <div class="form-card-header">
+            <div class="form-card-icon"><i data-lucide="user-plus" width="32"></i></div>
+            <div>
+              <h2>Inscription à une formation</h2>
+              <p>Remplissez ce formulaire et nous vous contacterons sous 24h.</p>
+            </div>
+          </div>
+
+          {% csrf_token %}
+          <form method="post" action="{% url 'formations:inscription' %}" id="inscriptionForm" novalidate>
+            {% csrf_token %}
+
+            <!-- Informations personnelles -->
+            <div class="form-section-title"><i data-lucide="user" width="18"></i> Informations personnelles</div>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label required">Nom <span>*</span></label>
+                <input type="text" name="last_name" class="form-control form-cfi" placeholder="Votre nom de famille" required
+                       value="{{ request.POST.last_name|default:'' }}" />
+                <div class="invalid-feedback">Le nom est obligatoire.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label required">Prénom <span>*</span></label>
+                <input type="text" name="first_name" class="form-control form-cfi" placeholder="Votre prénom" required
+                       value="{{ request.POST.first_name|default:'' }}" />
+                <div class="invalid-feedback">Le prénom est obligatoire.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label required">Téléphone <span>*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text">🇲🇱 +223</span>
+                  <input type="tel" name="phone" class="form-control form-cfi" placeholder="XX XX XX XX" required
+                         value="{{ request.POST.phone|default:'' }}" />
+                </div>
+                <div class="invalid-feedback">Le téléphone est obligatoire.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Email <small class="text-muted">(optionnel)</small></label>
+                <input type="email" name="email" class="form-control form-cfi" placeholder="votre@email.com"
+                       value="{{ request.POST.email|default:'' }}" />
+              </div>
+            </div>
+
+            <!-- Formation -->
+            <div class="form-section-title mt-4"><i data-lucide="book-open" width="18"></i> Formation souhaitée</div>
+            <div class="row g-3">
+              <div class="col-12">
+                <label class="form-label required">Formation <span>*</span></label>
+                <select name="formation" class="form-select form-cfi" required>
+                  <option value="">— Choisir une formation —</option>
+                  {% for f in formations %}
+                    <option value="{{ f.pk }}"
+                      {% if preselected and preselected.pk == f.pk %}selected{% endif %}
+                      {% if request.POST.formation == f.pk|stringformat:'s' %}selected{% endif %}>
+                      {{ f.title }} {% if not f.is_free %}— {{ f.get_price_display }}{% else %}— Gratuit{% endif %}
+                      {% if f.available_spots < 5 %} ({{ f.available_spots }} place{{ f.available_spots|pluralize }} restante{{ f.available_spots|pluralize }}){% endif %}
+                    </option>
+                  {% empty %}
+                    <option disabled>Aucune inscription ouverte pour le moment</option>
+                  {% endfor %}
+                </select>
+                <div class="invalid-feedback">Veuillez sélectionner une formation.</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Niveau d'études</label>
+                <select name="level" class="form-select form-cfi">
+                  {% for val, label in level_choices %}
+                    <option value="{{ val }}" {% if request.POST.level == val %}selected{% endif %}>{{ label }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Quartier / Adresse</label>
+                <input type="text" name="address" class="form-control form-cfi" placeholder="Ex : Badalabougou, Bamako"
+                       value="{{ request.POST.address|default:'' }}" />
+              </div>
+              <div class="col-12">
+                <label class="form-label">Message / Questions</label>
+                <textarea name="message" class="form-control form-cfi" rows="4"
+                          placeholder="Parlez-nous de vos objectifs, posez vos questions...">{{ request.POST.message|default:'' }}</textarea>
+              </div>
+            </div>
+
+            <!-- Protection anti-spam -->
+            <input type="text" name="website_url" style="display:none;" tabindex="-1" autocomplete="off" />
+
+            <!-- CGU -->
+            <div class="form-check mt-4">
+              <input class="form-check-input" type="checkbox" id="acceptCGU" required />
+              <label class="form-check-label" for="acceptCGU">
+                J'accepte que CFI-TECH me contacte par téléphone ou email concernant cette inscription.
+              </label>
+              <div class="invalid-feedback">Veuillez accepter pour continuer.</div>
+            </div>
+
+            <button type="submit" class="btn btn-cfi-primary btn-lg w-100 mt-4" id="submitBtn">
+              <span class="btn-text"><i data-lucide="send" width="18"></i> Soumettre mon inscription</span>
+              <span class="btn-loading d-none"><i data-lucide="loader" width="18" class="spin"></i> Envoi en cours...</span>
+            </button>
+
+            <p class="form-note mt-3">
+              <i data-lucide="shield-check" width="14"></i>
+              Vos données sont sécurisées et ne seront jamais partagées avec des tiers.
+            </p>
+          </form>
+        </div>
+      </div>
+
+      <!-- Sidebar informations -->
+      <div class="col-lg-5" data-aos="fade-left" data-aos-delay="200">
+
+        <!-- Formation préselectionnée -->
+        {% if preselected %}
+        <div class="sidebar-formation-card">
+          {% if preselected.affiche %}
+            <img src="{{ preselected.affiche.url }}" alt="{{ preselected.title }}" class="sidebar-formation-img" />
+          {% endif %}
+          <div class="sidebar-formation-body">
+            <span class="status-badge status-{{ preselected.status }}">{{ preselected.get_status_display }}</span>
+            <h4>{{ preselected.title }}</h4>
+            <p>{{ preselected.excerpt }}</p>
+            <ul class="sidebar-meta">
+              <li><i data-lucide="clock" width="14"></i> {{ preselected.duration }}</li>
+              <li><i data-lucide="bar-chart" width="14"></i> {{ preselected.get_level_display }}</li>
+              {% if preselected.trainer %}<li><i data-lucide="user" width="14"></i> {{ preselected.trainer.full_name }}</li>{% endif %}
+              <li><i data-lucide="calendar" width="14"></i> Début : {{ preselected.start_date|date:"d M Y"|default:"À confirmer" }}</li>
+              <li><i data-lucide="tag" width="14"></i> {{ preselected.get_price_display }}</li>
+              <li><i data-lucide="users" width="14"></i> {{ preselected.available_spots }} place{{ preselected.available_spots|pluralize }} disponible{{ preselected.available_spots|pluralize }}</li>
+            </ul>
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Contact rapide -->
+        <div class="sidebar-contact-card mt-4">
+          <h5><i data-lucide="phone" width="18"></i> Besoin d'aide ?</h5>
+          <p>Notre équipe est disponible pour répondre à toutes vos questions.</p>
+          <a href="tel:{{ site_config.phone }}" class="btn btn-outline-cfi w-100 mb-2">
+            <i data-lucide="phone" width="16"></i> {{ site_config.phone }}
+          </a>
+          <a href="https://wa.me/{{ site_config.whatsapp }}?text=Bonjour%2C%20je%20souhaite%20m%27inscrire%20%C3%A0%20une%20formation." target="_blank" rel="noopener" class="btn btn-whatsapp w-100">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Contacter via WhatsApp
+          </a>
+        </div>
+
+        <!-- Étapes du processus -->
+        <div class="inscription-steps mt-4">
+          <h5>Comment ça marche ?</h5>
+          <div class="step-item">
+            <div class="step-num">1</div>
+            <div><strong>Remplissez le formulaire</strong><p>Choisissez votre formation et envoyez votre demande.</p></div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">2</div>
+            <div><strong>Confirmation sous 24h</strong><p>Notre équipe vous contacte pour confirmer votre place.</p></div>
+          </div>
+          <div class="step-item">
+            <div class="step-num">3</div>
+            <div><strong>Démarrez la formation</strong><p>Rejoignez la classe et commencez à apprendre !</p></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Validation formulaire
+document.getElementById('inscriptionForm').addEventListener('submit', function(e) {
+  if (!this.checkValidity()) {
+    e.preventDefault();
+    e.stopPropagation();
+  } else {
+    // Anti-spam check
+    if (document.querySelector('[name="website_url"]').value) {
+      e.preventDefault();
+      return;
+    }
+    document.querySelector('.btn-text').classList.add('d-none');
+    document.querySelector('.btn-loading').classList.remove('d-none');
+    document.getElementById('submitBtn').disabled = true;
+  }
+  this.classList.add('was-validated');
+});
+</script>
+{% endblock %}

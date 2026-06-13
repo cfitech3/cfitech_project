@@ -1,0 +1,84 @@
+[
+  {
+    "model": "core.siteconfig",
+    "pk": 1,
+    "fields": {
+      "site_name": "CFI-TECH",
+      "slogan": "Apprenez, Innovez, Réussissez avec CFI-TECH",
+      "logo": null,
+      "banderole": null,
+      "phone": "+223 78 78 73 39",
+      "whatsapp": "+22378787339",
+      "email": "cfitech3@gmail.com",
+      "address": "Moussabougou, près du marché, descente du 3e pont, Bamako, Mali",
+      "google_maps_embed": "",
+      "facebook_url": "",
+      "instagram_url": "",
+      "linkedin_url": "",
+      "youtube_url": "",
+      "twitter_url": "",
+      "tiktok_url": "",
+      "meta_description": "CFI-TECH - Centre de Formation et d'Innovation Technologique à Bamako, Mali. Formations en informatique, programmation, cybersécurité, IA, énergie solaire.",
+      "google_analytics_id": "",
+      "stat_etudiants": 500,
+      "stat_reussite": 95,
+      "stat_formations": 20,
+      "stat_certifications": 300
+    }
+  },
+  {
+    "model": "core.faq",
+    "pk": 1,
+    "fields": {
+      "question": "Quels sont les prérequis pour s'inscrire à une formation ?",
+      "answer": "<p>La plupart de nos formations sont accessibles à tous niveaux. Certaines formations avancées peuvent nécessiter des bases spécifiques. Consultez la fiche de chaque formation pour connaître les prérequis détaillés.</p>",
+      "category": "inscription",
+      "display_order": 1,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.faq",
+    "pk": 2,
+    "fields": {
+      "question": "Comment se déroule l'inscription ?",
+      "answer": "<p>L'inscription se fait en 3 étapes simples :<br>1. Remplissez le formulaire en ligne<br>2. Notre équipe vous contacte sous 24h pour confirmer votre place<br>3. Effectuez le paiement et démarrez la formation</p>",
+      "category": "inscription",
+      "display_order": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.faq",
+    "pk": 3,
+    "fields": {
+      "question": "Les formations sont-elles certifiantes ?",
+      "answer": "<p>Oui ! À l'issue de chaque formation, vous recevez une attestation de formation délivrée par CFI-TECH. Pour certaines formations, des certifications partenaires reconnues peuvent également être obtenues.</p>",
+      "category": "certificat",
+      "display_order": 1,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.faq",
+    "pk": 4,
+    "fields": {
+      "question": "Y a-t-il des facilités de paiement ?",
+      "answer": "<p>Absolument ! Nous proposons des facilités de paiement pour rendre nos formations accessibles à tous. Contactez-nous sur WhatsApp (+223 78 78 73 39) pour discuter des modalités adaptées à votre situation.</p>",
+      "category": "paiement",
+      "display_order": 1,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.faq",
+    "pk": 5,
+    "fields": {
+      "question": "Les formations sont-elles en présentiel ou à distance ?",
+      "answer": "<p>Nous proposons les deux modes : présentiel dans nos locaux à Moussabougou (Bamako), à distance en ligne, et hybride. Le mode est précisé sur chaque fiche de formation.</p>",
+      "category": "formation",
+      "display_order": 1,
+      "is_active": true
+    }
+  }
+]

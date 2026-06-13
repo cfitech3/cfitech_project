@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header bg-dark-cfi"><div class="page-header-overlay"></div>
+<div class="container page-header-content">
+  <h1 data-aos="fade-up">Témoignages</h1>
+  <p style="color:rgba(255,255,255,.75);max-width:560px;" data-aos="fade-up" data-aos-delay="100">Ce que disent nos diplômés et clients sur leur expérience CFI-TECH.</p>
+</div></div>
+
+<section class="section-py">
+<div class="container">
+  {% if testimonials %}
+  <div class="row g-4">
+    {% for t in testimonials %}
+    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+      <div class="testimonial-card-light">
+        <div class="tcl-header">
+          {% if t.photo %}<img src="{{ t.photo.url }}" alt="{{ t.full_name }}" class="testimonial-photo">
+          {% else %}<div class="testimonial-avatar">{{ t.full_name|first }}</div>{% endif %}
+          <div>
+            <strong>{{ t.full_name }}</strong>
+            <span>{{ t.job_title }}</span>
+            {% if t.formation_suivie %}<small>{{ t.formation_suivie }}</small>{% endif %}
+          </div>
+        </div>
+        <div class="tcl-stars">{% for i in "12345" %}{% if forloop.counter <= t.rating %}⭐{% else %}☆{% endif %}{% endfor %}</div>
+        <blockquote class="tcl-quote">"{{ t.message }}"</blockquote>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="text-center py-5">
+    <i data-lucide="message-square" width="64" style="color:var(--gray-mid);"></i>
+    <h4 class="mt-4 text-muted">Témoignages en cours de collecte</h4>
+  </div>
+  {% endif %}
+
+  <div class="text-center mt-5 p-5" style="background:var(--blue-pale);border-radius:28px;" data-aos="fade-up">
+    <h3>Vous avez suivi une formation CFI-TECH ?</h3>
+    <p class="text-muted mb-4">Partagez votre expérience et inspirez d'autres apprenants !</p>
+    <a href="https://wa.me/{{ site_config.whatsapp }}?text=Bonjour%2C%20je%20souhaite%20partager%20mon%20témoignage%20sur%20CFI-TECH." target="_blank" rel="noopener" class="btn btn-cfi-primary btn-lg">Partager mon témoignage</a>
+  </div>
+</div>
+</section>
+
+<style>
+.testimonial-card-light{background:var(--white);border-radius:20px;padding:28px;border:1.5px solid var(--gray-light);box-shadow:var(--shadow-sm);transition:var(--transition);height:100%;}
+.testimonial-card-light:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--blue-pale);}
+.tcl-header{display:flex;gap:14px;align-items:center;margin-bottom:14px;}
+.tcl-header strong{display:block;font-size:.95rem;color:var(--blue-dark);}
+.tcl-header span{font-size:.82rem;color:var(--text-muted);}
+.tcl-header small{font-size:.78rem;color:var(--blue-mid);font-weight:600;display:block;}
+.tcl-stars{font-size:.95rem;margin-bottom:12px;}
+.tcl-quote{font-size:.92rem;color:var(--text-muted);font-style:italic;border-left:3px solid var(--blue-pale);padding-left:14px;margin:0;}
+</style>
+{% endblock %}

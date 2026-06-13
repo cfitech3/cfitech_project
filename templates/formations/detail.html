@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+
+{% comment %}
+  TEMPLATE: formations/detail.html
+  Page de détail d'une formation
+{% endcomment %}
+
+
+{% block title %}{{ formation.title }} — CFI-TECH Mali{% endblock %}
+{% block meta_description %}{{ formation.meta_description|default:formation.excerpt }}{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+  <div class="page-header-overlay"></div>
+  <div class="container page-header-content">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="d-flex gap-2 mb-3" data-aos="fade-up">
+          <span class="meta-domain">{{ formation.domain.name }}</span>
+          <span class="formation-status-badge status-{{ formation.status }}">{{ formation.get_status_display }}</span>
+        </div>
+        <h1 data-aos="fade-up" data-aos-delay="100">{{ formation.title }}</h1>
+        {% if formation.subtitle %}
+          <p class="hero-description" data-aos="fade-up" data-aos-delay="150">{{ formation.subtitle }}</p>
+        {% endif %}
+        <nav aria-label="breadcrumb" data-aos="fade-up" data-aos-delay="200">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Accueil</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'formations:list' %}">Formations</a></li>
+            <li class="breadcrumb-item active">{{ formation.title|truncatechars:40 }}</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="section-py">
+  <div class="container">
+    <div class="row g-5">
+
+      <!-- Contenu principal -->
+      <div class="col-lg-8" data-aos="fade-right">
+
+        <!-- Affiche -->
+        {% if formation.affiche %}
+        <div class="formation-detail-img mb-4">
+          <img src="{{ formation.affiche.url }}" alt="{{ formation.title }}" class="img-fluid rounded-3 shadow" />
+        </div>
+        {% endif %}
+
+        <!-- Infos rapides -->
+        <div class="formation-quick-info">
+          <div class="quick-info-item"><i data-lucide="clock" width="20"></i><span>{{ formation.duration }}</span><small>Durée</small></div>
+          <div class="quick-info-item"><i data-lucide="bar-chart" width="20"></i><span>{{ formation.get_level_display }}</span><small>Niveau</small></div>
+          <div class="quick-info-item"><i data-lucide="monitor" width="20"></i><span>{{ formation.get_mode_display }}</span><small>Mode</small></div>
+          {% if formation.trainer %}
+          <div class="quick-info-item"><i data-lucide="user" width="20"></i><span>{{ formation.trainer.full_name }}</span><small>Formateur</small></div>
+          {% endif %}
+          {% if formation.certification %}
+          <div class="quick-info-item"><i data-lucide="award" width="20"></i><span>{{ formation.certification }}</span><small>Certification</small></div>
+          {% endif %}
+        </div>
+
+        <!-- Description -->
+        <div class="formation-section mt-5">
+          <h3 class="fs-section-title">À propos de cette formation</h3>
+          <div class="rich-content">{{ formation.description|safe }}</div>
+        </div>
+
+        <!-- Objectifs -->
+        {% if formation.objectives %}
+        <div class="formation-section mt-4">
+          <h3 class="fs-section-title"><i data-lucide="target" width="20"></i> Objectifs</h3>
+          <div class="objectives-list">{{ formation.objectives|linebreaks }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Programme -->
+        {% if formation.program %}
+        <div class="formation-section mt-4">
+          <h3 class="fs-section-title"><i data-lucide="list" width="20"></i> Programme</h3>
+          <div class="rich-content">{{ formation.program|safe }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Prérequis -->
+        {% if formation.prerequisites %}
+        <div class="formation-section mt-4">
+          <h3 class="fs-section-title"><i data-lucide="check-square" width="20"></i> Prérequis</h3>
+          <p>{{ formation.prerequisites|linebreaks }}</p>
+        </div>
+        {% endif %}
+
+        <!-- Formateur -->
+        {% if formation.trainer %}
+        <div class="trainer-card mt-5">
+          {% if formation.trainer.photo %}
+            <img src="{{ formation.trainer.photo.url }}" alt="{{ formation.trainer.full_name }}" class="trainer-photo" />
+          {% else %}
+            <div class="trainer-avatar">{{ formation.trainer.full_name|first }}</div>
+          {% endif %}
+          <div class="trainer-info">
+            <strong>{{ formation.trainer.full_name }}</strong>
+            <span>{{ formation.trainer.title }}</span>
+            <p>{{ formation.trainer.bio }}</p>
+            {% if formation.trainer.years_experience %}<small>{{ formation.trainer.years_experience }} ans d'expérience</small>{% endif %}
+          </div>
+        </div>
+        {% endif %}
+
+        <!-- Partage -->
+        <div class="share-section mt-5">
+          <h5>Partager cette formation</h5>
+          <div class="share-buttons">
+            <button onclick="shareFormation('whatsapp','{{ request.build_absolute_uri }}','{{ formation.title }}')" class="btn-share whatsapp">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> WhatsApp
+            </button>
+            <button onclick="shareFormation('facebook','{{ request.build_absolute_uri }}','{{ formation.title }}')" class="btn-share facebook"><i data-lucide="facebook" width="18"></i> Facebook</button>
+            <button onclick="shareFormation('linkedin','{{ request.build_absolute_uri }}','{{ formation.title }}')" class="btn-share linkedin"><i data-lucide="linkedin" width="18"></i> LinkedIn</button>
+            <button onclick="copyLink('{{ request.build_absolute_uri }}')" class="btn-share copy"><i data-lucide="link" width="18"></i> Copier</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Sidebar -->
+      <div class="col-lg-4" data-aos="fade-left" data-aos-delay="200">
+        <div class="sticky-top" style="top: calc(var(--navbar-h) + 20px);">
+
+          <!-- Carte inscription -->
+          <div class="inscription-sidebar-card">
+            <div class="price-big">
+              {% if formation.is_free %}
+                <span class="price-free-big">Gratuit</span>
+              {% else %}
+                <span class="price-value">{{ formation.get_price_display }}</span>
+                {% if formation.price_note %}<small class="price-note">{{ formation.price_note }}</small>{% endif %}
+              {% endif %}
+            </div>
+
+            <ul class="sidebar-details-list">
+              <li><i data-lucide="calendar" width="16"></i><span>Début :</span><strong>{{ formation.start_date|date:"d M Y"|default:"À confirmer" }}</strong></li>
+              <li><i data-lucide="clock" width="16"></i><span>Durée :</span><strong>{{ formation.duration }}</strong></li>
+              <li><i data-lucide="users" width="16"></i><span>Places restantes :</span><strong>{{ formation.available_spots }}</strong></li>
+              {% if formation.registration_deadline %}
+              <li><i data-lucide="alert-circle" width="16"></i><span>Date limite :</span><strong>{{ formation.registration_deadline|date:"d M Y" }}</strong></li>
+              {% endif %}
+              {% if formation.schedule %}
+              <li><i data-lucide="repeat" width="16"></i><span>Horaire :</span><strong>{{ formation.schedule }}</strong></li>
+              {% endif %}
+            </ul>
+
+            {% if formation.registration_deadline %}
+            <div class="sidebar-countdown">
+              <small>Clôture dans :</small>
+              <div class="countdown countdown-big" data-deadline="{{ formation.registration_deadline|date:'Y-m-d' }}">
+                <span class="cd-days">--</span>j <span class="cd-hours">--</span>h <span class="cd-mins">--</span>m
+              </div>
+            </div>
+            {% endif %}
+
+            <!-- Barre de remplissage -->
+            <div class="progress-spots">
+              <div class="d-flex justify-content-between mb-1">
+                <small>{{ formation.registered_count }} inscrits</small>
+                <small>{{ formation.total_spots }} places</small>
+              </div>
+              <div class="spots-bar"><div class="spots-fill" style="width:{{ formation.occupancy_percent }}%"></div></div>
+            </div>
+
+            {% if formation.is_registration_open %}
+              <a href="{% url 'formations:inscription' %}?formation={{ formation.slug }}" class="btn btn-cfi-primary btn-lg w-100 mt-4">
+                <i data-lucide="user-plus" width="18"></i> S'inscrire maintenant
+              </a>
+            {% else %}
+              <div class="alert-closed mt-4">
+                <i data-lucide="lock" width="16"></i>
+                {% if formation.status == 'full' %}Places épuisées{% elif formation.status == 'finished' %}Formation terminée{% else %}Inscriptions fermées{% endif %}
+              </div>
+            {% endif %}
+
+            <a href="https://wa.me/{{ site_config.whatsapp }}?text=Bonjour%2C%20je%20suis%20intéressé%20par%20la%20formation%20%22{{ formation.title|urlencode }}%22."
+               target="_blank" rel="noopener" class="btn btn-whatsapp w-100 mt-2">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              Renseignements WhatsApp
+            </a>
+          </div>
+
+          <!-- Formations similaires -->
+          {% if related %}
+          <div class="related-formations mt-4">
+            <h6>Formations similaires</h6>
+            {% for r in related %}
+            <a href="{{ r.get_absolute_url }}" class="related-item">
+              {% if r.affiche %}<img src="{{ r.affiche.url }}" alt="{{ r.title }}" />{% else %}<div class="related-placeholder"><i data-lucide="book-open" width="20"></i></div>{% endif %}
+              <div>
+                <strong>{{ r.title|truncatechars:45 }}</strong>
+                <span>{{ r.duration }} · {{ r.get_level_display }}</span>
+              </div>
+            </a>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

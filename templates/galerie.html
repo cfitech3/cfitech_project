@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header"><div class="page-header-overlay"></div>
+<div class="container page-header-content">
+  <h1 data-aos="fade-up">Galerie CFI-TECH</h1>
+  <p style="color:rgba(255,255,255,.75);max-width:560px;" data-aos="fade-up" data-aos-delay="100">Découvrez la vie au sein de notre centre de formation.</p>
+  <nav aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="{% url 'core:home' %}">Accueil</a></li><li class="breadcrumb-item active">Galerie</li></ol></nav>
+</div></div>
+
+<section class="section-py">
+<div class="container">
+  {% if items %}
+  <div class="gallery-grid" data-aos="fade-up">
+    {% for item in items %}
+    <div class="gallery-item" title="{{ item.title }}">
+      {% if item.image %}
+        <img src="{{ item.image.url }}" alt="{{ item.title }}" loading="lazy">
+        <div class="gallery-item-overlay"><i data-lucide="zoom-in" width="28"></i></div>
+      {% elif item.video_url %}
+        <div style="background:var(--blue-dark);height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;color:var(--white);">
+          <i data-lucide="play-circle" width="48"></i>
+          <span style="font-size:.85rem;">{{ item.title }}</span>
+        </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="text-center py-5">
+    <i data-lucide="image" width="64" style="color:var(--gray-mid);"></i>
+    <h4 class="mt-4 text-muted">Galerie en cours de construction</h4>
+    <p class="text-muted">Revenez bientôt pour découvrir nos photos et vidéos.</p>
+  </div>
+  {% endif %}
+</div>
+</section>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header"><div class="page-header-overlay"></div>
+<div class="container page-header-content">
+  <h1 data-aos="fade-up">Nos Partenaires</h1>
+  <p style="color:rgba(255,255,255,.75);max-width:560px;" data-aos="fade-up" data-aos-delay="100">Un écosystème de partenaires de confiance pour enrichir votre parcours de formation.</p>
+  <nav aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="{% url 'core:home' %}">Accueil</a></li><li class="breadcrumb-item active">Partenaires</li></ol></nav>
+</div></div>
+
+<section class="section-py">
+<div class="container">
+  <div class="row g-4">
+    {% for partner in partners %}
+    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+      <div class="partner-card">
+        {% if partner.logo %}<img src="{{ partner.logo.url }}" alt="{{ partner.name }}" />{% endif %}
+        <span class="partner-type-badge">{{ partner.get_partner_type_display }}</span>
+        <h5>{{ partner.name }}</h5>
+        {% if partner.description %}<p>{{ partner.description|safe|truncatewords:30 }}</p>{% endif %}
+        {% if partner.services %}<p style="font-size:.82rem;color:var(--text-muted);">{{ partner.services|truncatechars:100 }}</p>{% endif %}
+        <div class="d-flex gap-2 justify-content-center mt-3 flex-wrap">
+          {% if partner.website_url %}<a href="{{ partner.website_url }}" target="_blank" rel="noopener" class="btn btn-outline-cfi btn-sm"><i data-lucide="external-link" width="14"></i> Site web</a>{% endif %}
+          {% if partner.linkedin_url %}<a href="{{ partner.linkedin_url }}" target="_blank" rel="noopener" class="btn btn-sm" style="background:#0A66C2;color:#fff;"><i data-lucide="linkedin" width="14"></i></a>{% endif %}
+          {% if partner.facebook_url %}<a href="{{ partner.facebook_url }}" target="_blank" rel="noopener" class="btn btn-sm" style="background:#1877F2;color:#fff;"><i data-lucide="facebook" width="14"></i></a>{% endif %}
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+      <i data-lucide="handshake" width="64" style="color:var(--gray-mid);"></i>
+      <h4 class="mt-4 text-muted">Nos partenariats sont en cours de configuration</h4>
+      <p class="text-muted">Vous souhaitez devenir partenaire de CFI-TECH ?</p>
+      <a href="{% url 'core:contact' %}" class="btn btn-cfi-primary mt-2">Nous contacter</a>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Noor Energy highlight -->
+  <div class="mt-5 p-5" style="background:linear-gradient(135deg,var(--blue-dark),#0A1929);border-radius:28px;border:1px solid rgba(255,111,0,.3);" data-aos="fade-up">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-8">
+        <span style="background:rgba(255,111,0,.2);color:#FFB74D;padding:4px 14px;border-radius:100px;font-size:.8rem;font-weight:700;letter-spacing:.08em;display:inline-block;margin-bottom:12px;">⚡ PARTENARIAT STRATÉGIQUE</span>
+        <h3 style="color:var(--white);margin-bottom:10px;">Noor Energy</h3>
+        <p style="color:rgba(255,255,255,.7);">Électrification rurale, énergie solaire, installations électriques industrielles. CFI-TECH et Noor Energy unissent leurs expertises pour vous proposer des formations et services complets en énergie.</p>
+      </div>
+      <div class="col-lg-4 text-lg-end">
+        <a href="{% url 'core:noor_energy' %}" class="btn btn-lg" style="background:linear-gradient(135deg,#FF6F00,#FFA000);color:#fff;font-weight:700;"><i data-lucide="zap" width="18"></i> Découvrir Noor Energy</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Devenir partenaire -->
+  <div class="text-center mt-5 p-5" style="background:var(--blue-pale);border-radius:28px;" data-aos="fade-up">
+    <h3 class="mb-3">Vous souhaitez devenir partenaire ?</h3>
+    <p class="text-muted mb-4">Rejoignez l'écosystème CFI-TECH et touchez des milliers d'apprenants au Mali.</p>
+    <a href="{% url 'core:contact' %}" class="btn btn-cfi-primary btn-lg"><i data-lucide="handshake" width="18"></i> Proposer un partenariat</a>
+  </div>
+</div>
+</section>
+{% endblock %}

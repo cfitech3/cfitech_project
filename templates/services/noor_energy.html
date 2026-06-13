@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load cfi_tags %}
+{% block content %}
+<!-- Hero Noor Energy -->
+<section class="noor-hero">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7" data-aos="fade-right">
+        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:var(--white);padding:6px 16px;border-radius:100px;font-size:.85rem;font-weight:600;margin-bottom:20px;">
+          <i data-lucide="zap" width="14"></i> Partenariat Stratégique CFI-TECH
+        </div>
+        <h1 style="color:var(--white);font-size:clamp(2rem,5vw,3rem);margin-bottom:16px;">
+          Noor <span style="color:#FFF9C4;">Energy</span>
+        </h1>
+        <p style="color:rgba(255,255,255,.85);font-size:1.1rem;max-width:500px;margin-bottom:32px;">
+          Votre partenaire de confiance en solutions énergétiques durables — électrification rurale, énergie solaire et installations électriques industrielles au Mali.
+        </p>
+        <div class="d-flex gap-3 flex-wrap">
+          <a href="{% url 'core:contact' %}" class="btn btn-cfi-outline-white btn-lg"><i data-lucide="phone" width="18"></i> Demander un devis</a>
+          <a href="https://wa.me/{{ site_config.whatsapp }}" target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">WhatsApp</a>
+        </div>
+      </div>
+      <div class="col-lg-5 d-none d-lg-block" data-aos="fade-left">
+        <div style="background:rgba(255,255,255,.1);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.2);border-radius:24px;padding:32px;text-align:center;">
+          <i data-lucide="sun" width="80" style="color:#FFF9C4;"></i>
+          <h3 style="color:var(--white);margin-top:16px;">Solutions Énergétiques Durables</h3>
+          <p style="color:rgba(255,255,255,.7);font-size:.9rem;">Énergie solaire · Électricité · Climatisation</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="section-py">
+<div class="container">
+  <div class="section-header" data-aos="fade-up">
+    <span class="section-label">Domaines d'intervention</span>
+    <h2 class="section-title">Nos <span class="gradient-text">expertises</span></h2>
+    <p class="section-description">Des solutions complètes en énergie et électricité pour vos projets résidentiels, commerciaux et industriels.</p>
+  </div>
+
+  <div class="row g-4 mt-3">
+    {% for service in services %}
+    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+      <div class="noor-service-card">
+        <div class="noor-icon">
+          {% if service.icon == 'solar-panel' %}☀️
+          {% elif service.icon == 'zap' %}⚡
+          {% elif service.icon == 'home' %}🏠
+          {% elif service.icon == 'wind' %}❄️
+          {% elif service.icon == 'activity' %}📊
+          {% else %}🔧{% endif %}
+        </div>
+        <h5>{{ service.title }}</h5>
+        <p>{{ service.description }}</p>
+      </div>
+    </div>
+    {% empty %}
+    {% for item in "Électrification rurale,Éclairage public,Réseau électrique,Énergie solaire,Bâtiments civils & industriels,Audit énergétique,Audit électrique,Climatisation,Installations industrielles"|split:"," %}
+    <div class="col-md-6 col-lg-4" data-aos="fade-up">
+      <div class="noor-service-card">
+        <div class="noor-icon">⚡</div>
+        <h5>{{ item }}</h5>
+        <p>Solution professionnelle Noor Energy – partenaire CFI-TECH.</p>
+      </div>
+    </div>
+    {% endfor %}
+    {% endfor %}
+  </div>
+
+  <!-- Avantages -->
+  <div class="row g-4 mt-5" data-aos="fade-up">
+    <div class="col-12"><h3 class="text-center mb-4">Pourquoi choisir <span class="gradient-text">Noor Energy</span> ?</h3></div>
+    <div class="col-md-3 col-6 text-center">
+      <div style="background:var(--blue-pale);border-radius:20px;padding:24px;">
+        <i data-lucide="shield-check" width="36" style="color:var(--blue-mid);"></i>
+        <h6 style="margin-top:12px;font-size:.95rem;">Qualité certifiée</h6>
+      </div>
+    </div>
+    <div class="col-md-3 col-6 text-center">
+      <div style="background:#FFF8E1;border-radius:20px;padding:24px;">
+        <i data-lucide="clock" width="36" style="color:#FF6F00;"></i>
+        <h6 style="margin-top:12px;font-size:.95rem;">Délais respectés</h6>
+      </div>
+    </div>
+    <div class="col-md-3 col-6 text-center">
+      <div style="background:#E8F5E9;border-radius:20px;padding:24px;">
+        <i data-lucide="leaf" width="36" style="color:#2E7D32;"></i>
+        <h6 style="margin-top:12px;font-size:.95rem;">Éco-responsable</h6>
+      </div>
+    </div>
+    <div class="col-md-3 col-6 text-center">
+      <div style="background:#FCE4EC;border-radius:20px;padding:24px;">
+        <i data-lucide="headphones" width="36" style="color:#C62828;"></i>
+        <h6 style="margin-top:12px;font-size:.95rem;">SAV disponible</h6>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="text-center mt-5 p-5" style="background:linear-gradient(135deg,#FF6F00,#FFA000);border-radius:28px;" data-aos="fade-up">
+    <h3 style="color:var(--white);margin-bottom:12px;">Un projet énergétique ?</h3>
+    <p style="color:rgba(255,255,255,.85);margin-bottom:28px;">Obtenez un audit gratuit et un devis personnalisé sous 48h.</p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      <a href="{% url 'core:contact' %}" class="btn btn-cfi-outline-white btn-lg"><i data-lucide="file-text" width="18"></i> Demander un audit</a>
+      <a href="https://wa.me/{{ site_config.whatsapp }}?text=Bonjour%2C%20je%20suis%20intéressé%20par%20les%20services%20Noor%20Energy." target="_blank" rel="noopener" class="btn btn-lg" style="background:var(--white);color:#FF6F00;font-weight:700;">WhatsApp</a>
+    </div>
+  </div>
+</div>
+</section>
+{% endblock %}

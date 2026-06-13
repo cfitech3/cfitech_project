@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header"><div class="page-header-overlay"></div>
+<div class="container page-header-content">
+  <h1 data-aos="fade-up">Nos Formations</h1>
+  <nav aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="{% url 'core:home' %}">Accueil</a></li><li class="breadcrumb-item active">Formations</li></ol></nav>
+</div></div>
+
+<section class="section-py">
+<div class="container">
+  <!-- Filtres -->
+  <div class="formations-filter-bar" data-aos="fade-up">
+    <div class="row g-3 align-items-end">
+      <div class="col-md-5">
+        <form method="get" id="formationFilterForm">
+          <input type="text" name="q" class="form-control form-cfi" placeholder="🔍 Rechercher une formation..." value="{{ search_query }}">
+      </div>
+      <div class="col-md-3">
+          <select name="niveau" class="form-select form-cfi">
+            <option value="">Tous niveaux</option>
+            <option value="debutant" {% if current_level == 'debutant' %}selected{% endif %}>Débutant</option>
+            <option value="intermediaire" {% if current_level == 'intermediaire' %}selected{% endif %}>Intermédiaire</option>
+            <option value="avance" {% if current_level == 'avance' %}selected{% endif %}>Avancé</option>
+          </select>
+      </div>
+      <div class="col-md-3">
+          <select name="statut" class="form-select form-cfi">
+            <option value="">Tous statuts</option>
+            <option value="open" {% if current_status == 'open' %}selected{% endif %}>Inscriptions ouvertes</option>
+            <option value="coming_soon" {% if current_status == 'coming_soon' %}selected{% endif %}>Bientôt disponible</option>
+          </select>
+      </div>
+      <div class="col-md-1">
+          <button type="submit" class="btn btn-cfi-primary w-100">Go</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Domaines -->
+    <div class="filter-tags mt-3">
+      <a href="{% url 'formations:list' %}" class="filter-tag {% if not current_domain %}active{% endif %}">Tous</a>
+      {% for d in domains %}
+      <a href="{% url 'formations:list' %}?domaine={{ d.slug }}" class="filter-tag {% if current_domain == d.slug %}active{% endif %}">{{ d.name }}</a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <p class="results-count" data-aos="fade-up"><strong>{{ page_obj.paginator.count }}</strong> formation{{ page_obj.paginator.count|pluralize }} trouvée{{ page_obj.paginator.count|pluralize }}</p>
+
+  <div class="row g-4">
+    {% for formation in page_obj %}
+    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:'0' }}00">
+      <div class="formation-card">
+        <div class="formation-card-img">
+          {% if formation.affiche %}<img src="{{ formation.affiche.url }}" alt="{{ formation.title }}" loading="lazy"/>{% else %}<div class="formation-img-placeholder"><i data-lucide="{{ formation.domain.icon|default:'book-open' }}" width="48"></i></div>{% endif %}
+          <div class="formation-status-badge status-{{ formation.status }}">{{ formation.get_status_display }}</div>
+          {% if formation.is_free %}<div class="formation-free-badge">Gratuit</div>{% endif %}
+        </div>
+        <div class="formation-card-body">
+          <div class="formation-meta"><span class="meta-domain">{{ formation.domain.name }}</span><span class="meta-level">{{ formation.get_level_display }}</span></div>
+          <h3 class="formation-title">{{ formation.title }}</h3>
+          <p class="formation-excerpt">{{ formation.excerpt }}</p>
+          <div class="formation-details">
+            <span><i data-lucide="clock" width="14"></i> {{ formation.duration }}</span>
+            <span><i data-lucide="user" width="14"></i> {{ formation.trainer.full_name|default:"CFI-TECH" }}</span>
+          </div>
+          {% if formation.registration_deadline %}
+          <div class="countdown-wrap"><small>Clôture dans :</small>
+          <div class="countdown" data-deadline="{{ formation.registration_deadline|date:'Y-m-d' }}"><span class="cd-days">--</span>j <span class="cd-hours">--</span>h <span class="cd-mins">--</span>m</div></div>
+          {% endif %}
+          <div class="formation-footer">
+            <div class="formation-price">{% if formation.is_free %}<span class="price-free">Gratuit</span>{% else %}<span class="price-amount">{{ formation.get_price_display }}</span>{% endif %}</div>
+            <div class="formation-actions">
+              <a href="{{ formation.get_absolute_url }}" class="btn btn-outline-cfi btn-sm">Détails</a>
+              {% if formation.is_registration_open %}<a href="{% url 'formations:inscription' %}?formation={{ formation.slug }}" class="btn btn-cfi-primary btn-sm">S'inscrire</a>{% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="formation-spots"><div class="spots-bar"><div class="spots-fill" style="width:{{ formation.occupancy_percent }}%"></div></div><small>{{ formation.available_spots }} place{{ formation.available_spots|pluralize }} disponible{{ formation.available_spots|pluralize }}</small></div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5"><i data-lucide="search" width="64" style="color:var(--gray-mid)"></i><h4 class="mt-4 text-muted">Aucune formation trouvée</h4><a href="{% url 'formations:list' %}" class="btn btn-outline-cfi mt-3">Voir toutes les formations</a></div>
+    {% endfor %}
+  </div>
+
+  <!-- Pagination -->
+  {% if page_obj.has_other_pages %}
+  <nav class="mt-5 d-flex justify-content-center">
+    <ul class="pagination">
+      {% if page_obj.has_previous %}<li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}">←</a></li>{% endif %}
+      {% for num in page_obj.paginator.page_range %}
+      <li class="page-item {% if page_obj.number == num %}active{% endif %}"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+      {% endfor %}
+      {% if page_obj.has_next %}<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">→</a></li>{% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+
+  <div class="text-center mt-5" data-aos="fade-up">
+    <a href="{% url 'formations:inscription' %}" class="btn btn-cfi-primary btn-lg"><i data-lucide="user-plus" width="18"></i> S'inscrire à une formation</a>
+  </div>
+</div>
+</section>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header"><div class="page-header-overlay"></div>
+<div class="container page-header-content">
+  <h1 data-aos="fade-up">À propos de CFI-TECH</h1>
+  <p style="color:rgba(255,255,255,.75);max-width:600px;" data-aos="fade-up" data-aos-delay="100">Centre de Formation et d'Innovation Technologique — La référence au Mali.</p>
+</div></div>
+
+<section class="section-py">
+<div class="container">
+  <div class="row align-items-center g-5">
+    <div class="col-lg-6" data-aos="fade-right">
+      <span class="section-label">Notre histoire</span>
+      <h2 class="section-title mt-2">Former les talents de <span class="gradient-text">demain</span></h2>
+      <p class="text-muted mb-3">CFI-TECH est né d'une vision simple mais ambitieuse : démocratiser l'accès aux formations technologiques de qualité au Mali et en Afrique de l'Ouest.</p>
+      <p class="text-muted mb-3">Installés au cœur de Bamako, à Moussabougou, nous formons chaque année des centaines d'apprenants aux métiers du numérique, de l'énergie solaire, de la logistique et bien plus encore.</p>
+      <p class="text-muted mb-4">Notre approche : 80% de pratique, des formateurs certifiés, des effectifs réduits et un suivi personnalisé pour garantir la réussite de chaque apprenant.</p>
+      <div class="row g-3">
+        <div class="col-6"><div class="about-stat-box"><span class="about-stat-num">{{ site_config.stat_etudiants }}+</span><span>Étudiants formés</span></div></div>
+        <div class="col-6"><div class="about-stat-box"><span class="about-stat-num">{{ site_config.stat_reussite }}%</span><span>Taux de réussite</span></div></div>
+        <div class="col-6"><div class="about-stat-box"><span class="about-stat-num">{{ site_config.stat_formations }}+</span><span>Formations</span></div></div>
+        <div class="col-6"><div class="about-stat-box"><span class="about-stat-num">{{ site_config.stat_certifications }}+</span><span>Certifications</span></div></div>
+      </div>
+    </div>
+    <div class="col-lg-6" data-aos="fade-left">
+      <div class="about-visual">
+        <div style="background:linear-gradient(135deg,var(--blue-pale),var(--blue-mid));height:400px;border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--blue-dark);gap:12px;">
+          <i data-lucide="building-2" width="64"></i>
+          <h4 style="margin:0;">CFI-TECH Bamako</h4>
+          <p style="margin:0;font-size:.9rem;opacity:.7;">Moussabougou, Mali</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Mission, Vision, Valeurs -->
+<section class="section-py bg-light-cfi">
+<div class="container">
+  <div class="section-header" data-aos="fade-up">
+    <span class="section-label">Nos fondements</span>
+    <h2 class="section-title">Mission, Vision & <span class="gradient-text">Valeurs</span></h2>
+  </div>
+  <div class="row g-4 mt-3">
+    <div class="col-md-4" data-aos="fade-up" data-aos-delay="0">
+      <div class="mvv-card">
+        <div class="mvv-icon" style="background:#E3F2FD;color:#1565C0;"><i data-lucide="target" width="28"></i></div>
+        <h4>Notre Mission</h4>
+        <p>Offrir des formations technologiques accessibles, pratiques et certifiantes qui permettent à chaque apprenant de s'insérer professionnellement ou de créer son activité.</p>
+      </div>
+    </div>
+    <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+      <div class="mvv-card">
+        <div class="mvv-icon" style="background:#E8F5E9;color:#2E7D32;"><i data-lucide="eye" width="28"></i></div>
+        <h4>Notre Vision</h4>
+        <p>Devenir le centre de formation technologique de référence au Mali et en Afrique de l'Ouest, reconnu pour l'excellence pédagogique et l'impact social.</p>
+      </div>
+    </div>
+    <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+      <div class="mvv-card">
+        <div class="mvv-icon" style="background:#FFF8E1;color:#F57F17;"><i data-lucide="heart" width="28"></i></div>
+        <h4>Nos Valeurs</h4>
+        <p>Excellence · Innovation · Accessibilité · Intégrité · Solidarité. Ces valeurs guident chacune de nos décisions et actions au quotidien.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Équipe -->
+{% if team %}
+<section class="section-py">
+<div class="container">
+  <div class="section-header" data-aos="fade-up">
+    <span class="section-label">Nos experts</span>
+    <h2 class="section-title">L'<span class="gradient-text">équipe</span> CFI-TECH</h2>
+    <p class="section-description">Des professionnels passionnés, certifiés et engagés pour votre réussite.</p>
+  </div>
+  <div class="row g-4 mt-3">
+    {% for member in team %}
+    <div class="col-md-4 col-lg-3" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+      <div class="team-card">
+        {% if member.photo %}<img src="{{ member.photo.url }}" alt="{{ member.full_name }}" class="team-photo">
+        {% else %}<div class="team-avatar">{{ member.full_name|first }}</div>{% endif %}
+        <h5>{{ member.full_name }}</h5>
+        <span class="team-role">{{ member.job_title }}</span>
+        {% if member.speciality %}<p>{{ member.speciality }}</p>{% endif %}
+        {% if member.linkedin_url %}<a href="{{ member.linkedin_url }}" target="_blank" class="social-btn linkedin" style="margin:0 auto;" aria-label="LinkedIn"><i data-lucide="linkedin" width="16"></i></a>{% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+</section>
+{% endif %}
+
+<style>
+.about-stat-box{background:var(--white);border:1.5px solid var(--blue-pale);border-radius:16px;padding:20px;text-align:center;}
+.about-stat-num{display:block;font-family:var(--font-display);font-size:1.8rem;font-weight:800;color:var(--blue-mid);margin-bottom:4px;}
+.about-stat-box span:last-child{font-size:.85rem;color:var(--text-muted);}
+.mvv-card{background:var(--white);border-radius:20px;padding:32px;border:1px solid var(--gray-light);height:100%;box-shadow:var(--shadow-sm);}
+.mvv-icon{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+.mvv-card h4{font-size:1.1rem;margin-bottom:10px;}
+.mvv-card p{font-size:.9rem;color:var(--text-muted);margin:0;}
+</style>
+{% endblock %}

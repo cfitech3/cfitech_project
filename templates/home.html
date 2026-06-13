@@ -1,0 +1,419 @@
+{% extends 'base.html' %}
+{% load cfi_tags %}
+
+{% block content %}
+
+<!-- ═══ HERO ═══ -->
+<section class="hero-section">
+  <div class="hero-bg">
+    {% if site_config.banderole %}
+      <img src="{{ site_config.banderole.url }}" alt="CFI-TECH" class="hero-img" />
+    {% endif %}
+    <div class="hero-overlay"></div>
+    <div class="hero-pattern"></div>
+  </div>
+
+  <div class="container hero-content">
+    <div class="row align-items-center min-vh-hero">
+      <div class="col-lg-7" data-aos="fade-right">
+        <!-- <div class="hero-badge">
+          <span class="badge-dot"></span> Inscriptions ouvertes — Bamako, Mali
+        </div> -->
+        <div class="hero-badge">
+            Inscriptions ouvertes — Bamako, Mali
+        </div>
+        <h1 class="hero-title">
+          Centre de <span class="gradient-text">Formation</span><br>
+          et d'<span class="gradient-text">Innovation</span> Tech
+        </h1>
+        <p class="hero-slogan">{{ site_config.slogan }}</p>
+        <p class="hero-description">
+          Maîtrisez les technologies du futur. Formations en informatique,
+          cybersécurité, IA et énergie solaire à Bamako.
+        </p>
+        <div class="hero-cta-group">
+          <a href="{% url 'formations:list' %}" class="btn btn-cfi-primary btn-lg">
+            <i data-lucide="book-open" width="18"></i> Voir les formations
+          </a>
+          <a href="{% url 'formations:inscription' %}" class="btn btn-cfi-outline-white btn-lg">
+            <i data-lucide="user-plus" width="18"></i> S'inscrire
+          </a>
+          <a href="https://wa.me/{{ site_config.whatsapp }}" target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-5 d-none d-lg-block" data-aos="fade-left" data-aos-delay="200">
+        <div class="hero-card-stack">
+          <div class="hero-card hc-1"><i data-lucide="cpu" width="24"></i><div><strong>Intelligence Artificielle</strong><span>Nouvelle formation</span></div></div>
+          <div class="hero-card hc-2"><i data-lucide="shield" width="24"></i><div><strong>Cybersécurité</strong><span>Places limitées !</span></div></div>
+          <div class="hero-card hc-3"><i data-lucide="sun" width="24"></i><div><strong>Énergie Solaire</strong><span>Certification incluse</span></div></div>
+          <div class="hero-badge-float">
+            <span class="hbf-num">{{ site_config.stat_reussite }}%</span>
+            <span class="hbf-txt">Taux de réussite</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ STATS ═══ -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item" data-aos="fade-up">
+        <div class="stat-icon"><i data-lucide="users" width="28"></i></div>
+        <div class="stat-number counter" data-target="{{ site_config.stat_etudiants }}">0</div>
+        <div class="stat-label">Étudiants formés</div>
+      </div>
+      <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+        <div class="stat-icon"><i data-lucide="trending-up" width="28"></i></div>
+        <div class="stat-number"><span class="counter" data-target="{{ site_config.stat_reussite }}">0</span>%</div>
+        <div class="stat-label">Taux de réussite</div>
+      </div>
+      <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+        <div class="stat-icon"><i data-lucide="book-open" width="28"></i></div>
+        <div class="stat-number counter" data-target="{{ site_config.stat_formations }}">0</div>
+        <div class="stat-label">Formations</div>
+      </div>
+      <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+        <div class="stat-icon"><i data-lucide="award" width="28"></i></div>
+        <div class="stat-number counter" data-target="{{ site_config.stat_certifications }}">0</div>
+        <div class="stat-label">Certifications</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ DOMAINES ═══ -->
+<section class="section-py">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-label">Notre Offre</span>
+      <h2 class="section-title">Domaines de <span class="gradient-text">formation</span></h2>
+      <p class="section-description">
+        16 domaines couvrant les métiers du numérique,
+        de l'énergie et du management.
+      </p>
+    </div>
+    <div class="row g-3 mt-3" id="domainsGrid">
+      {% for domain in domains %}
+      <div class="col-6 col-sm-4 col-md-3 domain-item"
+           data-index="{{ forloop.counter }}"
+           data-aos="fade-up">
+        <a href="{% url 'formations:list' %}?domaine={{ domain.slug }}"
+           class="domain-card">
+          <div class="domain-icon" style="color:{{ domain.color }};">
+            <i data-lucide="{{ domain.icon }}" width="28" height="28"></i>
+          </div>
+          <h5 class="domain-name">{{ domain.name }}</h5>
+          <span class="domain-count">
+            {{ domain.get_active_formations.count }}
+            formation{{ domain.get_active_formations.count|pluralize }}
+          </span>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="text-center mt-3" id="domainsToggleWrap">
+      <button class="btn btn-outline-cfi btn-sm"
+              id="domainsToggleBtn"
+              onclick="toggleDomains()">
+        <i data-lucide="grid" width="14"></i>
+        <span id="domainsToggleText">Voir tous les domaines</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ FORMATIONS — 4 visibles + voir toutes ═══ -->
+{% if featured_formations %}
+<section class="section-py bg-light-cfi">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-label">Nos formations</span>
+      <h2 class="section-title">Formations <span class="gradient-text">disponibles</span></h2>
+    </div>
+    <div class="row g-4 mt-2">
+      {% for formation in featured_formations %}
+      {% if forloop.counter <= 4 %}
+      <div class="col-12 col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+        <div class="formation-card">
+          <div class="formation-card-img">
+            {% if formation.affiche %}
+              <img src="{{ formation.affiche.url }}" alt="{{ formation.title }}" loading="lazy" />
+            {% else %}
+              <div class="formation-img-placeholder">
+                <i data-lucide="{{ formation.domain.icon|default:'book-open' }}" width="40"></i>
+              </div>
+            {% endif %}
+            <div class="formation-status-badge status-{{ formation.status }}">{{ formation.get_status_display }}</div>
+            {% if formation.is_free %}<div class="formation-free-badge">Gratuit</div>{% endif %}
+          </div>
+          <div class="formation-card-body">
+            <div class="formation-meta">
+              <span class="meta-domain">{{ formation.domain.name }}</span>
+            </div>
+            <h3 class="formation-title">{{ formation.title }}</h3>
+            <p class="formation-excerpt">{{ formation.excerpt|truncatechars:80 }}</p>
+            <div class="formation-details">
+              <span><i data-lucide="clock" width="13"></i> {{ formation.duration }}</span>
+            </div>
+            <div class="formation-footer">
+              <div class="formation-price">
+                {% if formation.is_free %}<span class="price-free">Gratuit</span>
+                {% else %}<span class="price-amount">{{ formation.get_price_display }}</span>{% endif %}
+              </div>
+              <div class="formation-actions">
+                <a href="{{ formation.get_absolute_url }}" class="btn btn-outline-cfi btn-sm">Détails</a>
+                <a href="{% url 'formations:inscription' %}?formation={{ formation.slug }}" class="btn btn-cfi-primary btn-sm">S'inscrire</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    <div class="text-center mt-4" data-aos="fade-up">
+      <a href="{% url 'formations:list' %}" class="btn btn-cfi-primary btn-lg">
+        Voir toutes les formations <i data-lucide="arrow-right" width="16"></i>
+      </a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ═══ NOS LOGICIELS ═══ -->
+{% if logiciels_home %}
+<section class="section-py bg-light-cfi">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-label">Outils & Technologies</span>
+      <h2 class="section-title">Nos <span class="gradient-text">logiciels</span></h2>
+      <p class="section-description">
+        Les logiciels que nous utilisons dans nos formations
+        et proposons à la vente.
+      </p>
+    </div>
+    <div class="row g-3 mt-3">
+      {% for logiciel in logiciels_home %}
+      <div class="col-6 col-md-4 col-lg-3"
+           data-aos="fade-up"
+           data-aos-delay="{{ forloop.counter0 }}00">
+        <div class="logiciel-card {% if logiciel.is_featured %}featured{% endif %}">
+          <div class="logiciel-logo">
+            {% if logiciel.logo %}
+              <img src="{{ logiciel.logo.url }}" alt="{{ logiciel.name }}" />
+            {% else %}
+              <div class="logiciel-logo-placeholder">
+                <i data-lucide="monitor" width="32"></i>
+              </div>
+            {% endif %}
+            {% if logiciel.is_free %}
+              <span class="logiciel-badge free">Gratuit</span>
+            {% endif %}
+          </div>
+          <div class="logiciel-body">
+            <h5 class="logiciel-name">{{ logiciel.name }}</h5>
+            {% if logiciel.editor %}
+              <p class="logiciel-editor">{{ logiciel.editor }}</p>
+            {% endif %}
+            {% if logiciel.is_formation %}
+              <span class="logiciel-tag formation">
+                <i data-lucide="book-open" width="11"></i> En formation
+              </span>
+            {% endif %}
+            {% if logiciel.is_sale %}
+              <a href="https://wa.me/{{ site_config.whatsapp }}?text=Bonjour%2C%20je%20suis%20intéressé%20par%20{{ logiciel.name|urlencode }}."
+                 target="_blank" rel="noopener"
+                 class="btn btn-cfi-primary btn-sm mt-1"
+                 style="font-size:.72rem;padding:4px 10px;">
+                Commander
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="text-center mt-4" data-aos="fade-up">
+      <a href="{% url 'services:logiciels' %}" class="btn btn-outline-cfi">
+        <i data-lucide="monitor" width="16"></i>
+        Voir tous nos logiciels
+      </a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ═══ POURQUOI CFI-TECH ═══ -->
+<section class="section-py">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6" data-aos="fade-right">
+        <span class="section-label">Notre avantage</span>
+        <h2 class="section-title mt-2">Pourquoi choisir <span class="gradient-text">CFI-TECH</span> ?</h2>
+        <p class="text-muted mb-4">Une formation de qualité internationale dispensée par des experts certifiés.</p>
+        <div class="why-list">
+          <div class="why-item">
+            <div class="why-icon"><i data-lucide="award" width="22"></i></div>
+            <div><strong>Formateurs certifiés</strong><p>Des experts avec des années d'expérience terrain et des certifications reconnues.</p></div>
+          </div>
+          <div class="why-item">
+            <div class="why-icon"><i data-lucide="zap" width="22"></i></div>
+            <div><strong>80% de pratique</strong><p>Vous sortez prêt pour le marché du travail avec des projets réels.</p></div>
+          </div>
+          <div class="why-item">
+            <div class="why-icon"><i data-lucide="file-badge" width="22"></i></div>
+            <div><strong>Certificats reconnus</strong><p>Attestations valorisées par les employeurs locaux et internationaux.</p></div>
+          </div>
+          <div class="why-item">
+            <div class="why-icon"><i data-lucide="dollar-sign" width="22"></i></div>
+            <div><strong>Tarifs accessibles</strong><p>Facilités de paiement disponibles pour tous les apprenants.</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6" data-aos="fade-left" data-aos-delay="200">
+        <div class="why-visual">
+          <div class="why-img-placeholder">
+            <i data-lucide="graduation-cap" width="64"></i>
+            <p>Centre CFI-TECH — Bamako</p>
+          </div>
+          <div class="why-badge-1"><i data-lucide="check-circle" width="20"></i><span>Certifié</span></div>
+          <div class="why-badge-2"><i data-lucide="star" width="20"></i><span>Top Bamako</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ TÉMOIGNAGES ═══ -->
+{% if testimonials %}
+<section class="section-py bg-dark-cfi testimonials-section">
+  <div class="container">
+    <div class="section-header light" data-aos="fade-up">
+      <span class="section-label">Ils témoignent</span>
+      <h2 class="section-title">Nos <span class="gradient-text">diplômés</span> parlent</h2>
+    </div>
+    <div class="swiper testimonials-swiper mt-4">
+      <div class="swiper-wrapper">
+        {% for t in testimonials %}
+        <div class="swiper-slide">
+          <div class="testimonial-card">
+            <div class="testimonial-stars">{% for i in "12345" %}{% if forloop.counter <= t.rating %}⭐{% else %}☆{% endif %}{% endfor %}</div>
+            <blockquote class="testimonial-quote">"{{ t.message }}"</blockquote>
+            <div class="testimonial-author">
+              {% if t.photo %}<img src="{{ t.photo.url }}" alt="{{ t.full_name }}" class="testimonial-photo" />
+              {% else %}<div class="testimonial-avatar">{{ t.full_name|first }}</div>{% endif %}
+              <div>
+                <strong>{{ t.full_name }}</strong>
+                <span>{{ t.job_title }}{% if t.formation_suivie %} — {{ t.formation_suivie }}{% endif %}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+
+<!-- ═══ PARTENAIRES ═══ -->
+{% if partners %}
+<section class="section-py">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-label">Écosystème</span>
+      <h2 class="section-title">Nos <span class="gradient-text">partenaires</span></h2>
+    </div>
+    <div class="partners-logos" data-aos="fade-up">
+      {% for partner in partners %}
+      <a href="{{ partner.website_url|default:'#' }}" target="_blank" rel="noopener" class="partner-logo-item" title="{{ partner.name }}">
+        {% if partner.logo %}<img src="{{ partner.logo.url }}" alt="{{ partner.name }}" />
+        {% else %}<div class="partner-name-fallback">{{ partner.name }}</div>{% endif %}
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+
+<!-- ═══ BLOG ═══ -->
+{% if recent_posts %}
+<section class="section-py bg-light-cfi">
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-label">News</span>
+      <h2 class="section-title">Actualités & <span class="gradient-text">Blog</span></h2>
+    </div>
+    <div class="row g-4 mt-2">
+      {% for post in recent_posts %}
+      <div class="col-12 col-md-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+        <article class="blog-card">
+          {% if post.thumbnail %}<img src="{{ post.thumbnail.url }}" alt="{{ post.title }}" class="blog-card-img" loading="lazy" />
+          {% else %}<div class="blog-img-placeholder"><i data-lucide="newspaper" width="48"></i></div>{% endif %}
+          <div class="blog-card-body">
+            <span class="blog-category">{{ post.category|default:"Actualité" }}</span>
+            <h3 class="blog-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+            <p class="blog-excerpt">{{ post.excerpt|truncatechars:100 }}</p>
+            <div class="blog-meta">
+              <span>{{ post.published_at|date:"d M Y" }}</span>
+              <a href="{{ post.get_absolute_url }}">Lire →</a>
+            </div>
+          </div>
+        </article>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="text-center mt-4">
+      <a href="{% url 'core:blog_list' %}" class="btn btn-outline-cfi">Voir toutes les actualités</a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+
+<!-- ═══ CTA FINAL ═══ -->
+<section class="cta-section">
+  <div class="cta-overlay"></div>
+  <div class="container cta-content text-center" data-aos="fade-up">
+    <h2 class="cta-title">Prêt à transformer votre <span class="gradient-text">avenir</span> ?</h2>
+    <p class="cta-subtitle">Rejoignez des centaines d'apprenants qui ont choisi CFI-TECH.</p>
+    <div class="cta-actions">
+      <a href="{% url 'formations:inscription' %}" class="btn btn-cfi-primary btn-xl">
+        <i data-lucide="rocket" width="20"></i> Démarrer ma formation
+      </a>
+      <a href="https://wa.me/{{ site_config.whatsapp }}" target="_blank" rel="noopener" class="btn btn-whatsapp btn-xl">WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+new Swiper('.testimonials-swiper', {
+  slidesPerView: 1,
+  spaceBetween: 24,
+  loop: true,
+  autoplay: { delay: 5000, disableOnInteraction: false },
+  pagination: { el: '.swiper-pagination', clickable: true },
+  breakpoints: {
+    768: { slidesPerView: 2 },
+    1024: { slidesPerView: 3 }
+  }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header"><div class="page-header-overlay"></div>
+<div class="container page-header-content">
+  <h1 data-aos="fade-up">Actualités & Blog</h1>
+  <p style="color:rgba(255,255,255,.75);max-width:560px;" data-aos="fade-up" data-aos-delay="100">Restez informé des dernières actualités de CFI-TECH et du monde technologique.</p>
+  <nav aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="{% url 'core:home' %}">Accueil</a></li><li class="breadcrumb-item active">Blog</li></ol></nav>
+</div></div>
+
+<section class="section-py">
+<div class="container">
+  <!-- Filtres catégories -->
+  {% if categories %}
+  <div class="blog-filter-bar" data-aos="fade-up">
+    <a href="{% url 'core:blog_list' %}" class="filter-tag {% if not current_category %}active{% endif %}">Tout</a>
+    {% for cat in categories %}{% if cat %}<a href="{% url 'core:blog_list' %}?category={{ cat|urlencode }}" class="filter-tag {% if current_category == cat %}active{% endif %}">{{ cat }}</a>{% endif %}{% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="row g-4 mt-2">
+    {% for post in page_obj %}
+    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+      <article class="blog-card">
+        {% if post.thumbnail %}<img src="{{ post.thumbnail.url }}" alt="{{ post.title }}" class="blog-card-img" loading="lazy">
+        {% else %}<div class="blog-img-placeholder"><i data-lucide="newspaper" width="48"></i></div>{% endif %}
+        <div class="blog-card-body">
+          <span class="blog-category">{{ post.category|default:"Actualité" }}</span>
+          <h3 class="blog-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+          <p class="blog-excerpt">{{ post.excerpt }}</p>
+          <div class="blog-meta">
+            <span><i data-lucide="calendar" width="12" style="margin-right:4px;"></i>{{ post.published_at|date:"d M Y" }}</span>
+            <a href="{{ post.get_absolute_url }}" style="color:var(--blue-mid);font-weight:600;">Lire →</a>
+          </div>
+        </div>
+      </article>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+      <i data-lucide="newspaper" width="64" style="color:var(--gray-mid);"></i>
+      <h4 class="mt-4 text-muted">Aucun article disponible pour le moment</h4>
+      <p class="text-muted">Revenez bientôt pour découvrir nos actualités.</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% if page_obj.has_other_pages %}
+  <nav class="mt-5 d-flex justify-content-center">
+    <ul class="pagination">
+      {% if page_obj.has_previous %}<li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">← Précédent</a></li>{% endif %}
+      {% for num in page_obj.paginator.page_range %}
+      <li class="page-item {% if page_obj.number == num %}active{% endif %}"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+      {% endfor %}
+      {% if page_obj.has_next %}<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Suivant →</a></li>{% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+</div>
+</section>
+{% endblock %}

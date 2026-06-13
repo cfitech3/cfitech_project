@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header"><div class="page-header-overlay"></div>
+<div class="container page-header-content">
+  <h1 data-aos="fade-up">Nos Services</h1>
+  <p style="color:rgba(255,255,255,.75);max-width:560px;" data-aos="fade-up" data-aos-delay="100">Solutions informatiques complètes pour particuliers, entreprises et institutions.</p>
+  <nav aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="{% url 'core:home' %}">Accueil</a></li><li class="breadcrumb-item active">Services</li></ol></nav>
+</div></div>
+
+<section class="section-py">
+<div class="container">
+  <div class="row g-4">
+    {% for service in services %}
+    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
+      <div class="service-card">
+        <div class="service-icon"><i data-lucide="{{ service.icon }}" width="28"></i></div>
+        <h4>{{ service.title }}</h4>
+        <p class="text-muted" style="font-size:.92rem;">{{ service.short_description }}</p>
+        {% if service.features %}
+        <ul class="service-features">
+          {% for feature in service.get_features_list %}<li>{{ feature }}</li>{% endfor %}
+        </ul>
+        {% endif %}
+        {% if service.price_info %}<p style="font-size:.85rem;color:var(--blue-mid);font-weight:600;margin-bottom:16px;">{{ service.price_info }}</p>{% endif %}
+        <a href="https://wa.me/{{ site_config.whatsapp }}?text=Bonjour%2C%20je%20suis%20intéressé%20par%20le%20service%20{{ service.title|urlencode }}." target="_blank" rel="noopener" class="btn btn-outline-cfi btn-sm w-100">
+          <i data-lucide="message-circle" width="14"></i> {{ service.cta_text }}
+        </a>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5"><p class="text-muted">Services en cours de configuration. <a href="{% url 'core:contact' %}">Contactez-nous</a> pour plus d'informations.</p></div>
+    {% endfor %}
+  </div>
+  <div class="text-center mt-5" data-aos="fade-up" style="background:linear-gradient(135deg,var(--blue-dark),var(--blue-mid));border-radius:28px;padding:48px;">
+    <h3 style="color:var(--white);margin-bottom:12px;">Besoin d'un service sur mesure ?</h3>
+    <p style="color:rgba(255,255,255,.75);margin-bottom:28px;">Devis gratuit, réponse rapide.</p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      <a href="{% url 'core:contact' %}" class="btn btn-cfi-outline-white btn-lg"><i data-lucide="mail" width="18"></i> Demander un devis</a>
+      <a href="https://wa.me/{{ site_config.whatsapp }}" target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">WhatsApp</a>
+    </div>
+  </div>
+</div>
+</section>
+{% endblock %}

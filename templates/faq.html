@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-header"><div class="page-header-overlay"></div>
+<div class="container page-header-content">
+  <h1 data-aos="fade-up">Questions fréquentes</h1>
+  <p style="color:rgba(255,255,255,.75);max-width:560px;" data-aos="fade-up" data-aos-delay="100">Retrouvez les réponses aux questions les plus posées sur nos formations et services.</p>
+</div></div>
+
+<section class="section-py">
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8" data-aos="fade-up">
+
+      {% for category, items in faqs_by_category.items %}
+      <div class="faq-category-title"><i data-lucide="help-circle" width="20"></i> {{ category }}</div>
+      <div class="accordion accordion-cfi mb-4" id="faq{{ forloop.counter }}">
+        {% for faq in items %}
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button"
+              data-bs-toggle="collapse" data-bs-target="#faqItem{{ faq.pk }}">
+              {{ faq.question }}
+            </button>
+          </h2>
+          <div id="faqItem{{ faq.pk }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}">
+            <div class="accordion-body">{{ faq.answer|safe }}</div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% empty %}
+      <div class="text-center py-5">
+        <i data-lucide="help-circle" width="64" style="color:var(--gray-mid)"></i>
+        <h4 class="mt-4 text-muted">Aucune question disponible pour le moment</h4>
+      </div>
+      {% endfor %}
+
+      <!-- CTA Contact -->
+      <div class="mt-5 p-5 text-center" style="background:var(--blue-pale);border-radius:24px;">
+        <h4>Vous ne trouvez pas votre réponse ?</h4>
+        <p class="text-muted mb-4">Contactez-nous directement, nous sommes là pour vous aider.</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+          <a href="{% url 'core:contact' %}" class="btn btn-cfi-primary"><i data-lucide="mail" width="16"></i> Nous écrire</a>
+          <a href="https://wa.me/{{ site_config.whatsapp }}" target="_blank" rel="noopener" class="btn btn-whatsapp">WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+{% endblock %}
