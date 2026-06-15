@@ -1282,3 +1282,20 @@ img { max-width: 100%; height: auto; }
   .logiciel-name  { font-size: .88rem; }
   .logiciel-body  { padding: 10px; }
 }
+
+/* ─── Logo navbar contrôlé ──────────────────── */
+.navbar-logo {
+  height: 44px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .navbar-logo {
+    height: 36px;
+    max-width: 120px;
+  }
+}

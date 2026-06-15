@@ -28,7 +28,10 @@
   <meta name="twitter:description" content="{{ site_config.meta_description }}" />
 
   <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="{% if site_config.logo %}{{ site_config.logo.url }}{% else %}/static/images/favicon.ico{% endif %}" />
+  {% if site_config.logo %}
+    <link rel="icon" type="image/png" href="{{ site_config.logo.url }}" />
+    {% endif %}
+  <!-- <link rel="icon" type="image/x-icon" href="{% if site_config.logo %}{{ site_config.logo.url }}{% else %}/static/images/favicon.ico{% endif %}" /> -->
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />

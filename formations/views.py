@@ -210,7 +210,7 @@ Date : {ins.created_at.strftime('%d/%m/%Y %H:%M')}
                     'email':     email,
                     'formation': formation.title if formation else '',
                     'niveau':    ins.get_level_display(),
-                    'message':   msg,
+                    'message':   message,
                     'date':      now_str,
                 },
                 timeout=10
@@ -234,7 +234,7 @@ Date : {ins.created_at.strftime('%d/%m/%Y %H:%M')}
                     'email':     email,
                     'formation': formation.title if formation else '',
                     'niveau':    ins.get_level_display(),
-                    'message':   msg,
+                    'message':   message,
                     'date':      now_str,
                 },
                 timeout=10

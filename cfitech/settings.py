@@ -14,8 +14,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ─── SÉCURITÉ ────────────────────────────────────────────────────────────────
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-CHANGE-ME-IN-PRODUCTION-!@#$%^&*()')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost 127.0.0.1').split()
-ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost 127.0.0.1').split()
+# ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    ".pythonanywhere.com"
+]
 
 # ─── APPLICATIONS ─────────────────────────────────────────────────────────────
 INSTALLED_APPS = [
