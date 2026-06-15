@@ -244,6 +244,17 @@ Date : {ins.created_at.strftime('%d/%m/%Y %H:%M')}
         except Exception as e:
             print(f"❌ Erreur Google Sheets : {e}")
 
+
+    messages.success(
+            request,
+            f"Votre inscription à {formation.title} a été enregistrée avec succès."
+        )
+
+    return redirect(
+            'formations:inscription_success',
+            reference=ins.reference
+        )
+
 # Dans _handle_inscription(), remplacez le bloc Google Sheets par :
     # if getattr(settings, 'GOOGLE_SCRIPT_URL', ''):
     #     try:
