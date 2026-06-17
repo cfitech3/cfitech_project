@@ -23,11 +23,7 @@
       {% endif %}
       <div class="blog-detail-content">{{ post.content|safe }}</div>
 
-      <!-- {% if post.tags %}
-      <div class="blog-tags mt-4">
-        {% for tag in post.tags.split:"," %}<span class="blog-tag">{{ tag|strip }}</span>{% endfor %}
-      </div>
-      {% endif %} -->
+      
       {% if post.tags %}
       <div class="blog-tags mt-4">
           <span class="blog-tag">{{ post.tags }}</span>
