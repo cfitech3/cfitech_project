@@ -1,112 +1,214 @@
 {% extends 'base.html' %}
 {% load cfi_tags %}
+
 {% block content %}
-<!-- Hero Noor Energy -->
-<section class="noor-hero">
+
+<!-- Hero Noor Energy — fond clair pour texte visible -->
+<section style="background:linear-gradient(135deg,#FFF8E1,#FFE082);padding:80px 0 60px;">
   <div class="container">
-    <div class="row align-items-center g-5">
-      <div class="col-lg-7" data-aos="fade-right">
-        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:var(--white);padding:6px 16px;border-radius:100px;font-size:.85rem;font-weight:600;margin-bottom:20px;">
-          <i data-lucide="zap" width="14"></i> Partenariat Stratégique CFI-TECH
-        </div>
-        <h1 style="color:var(--white);font-size:clamp(2rem,5vw,3rem);margin-bottom:16px;">
-          Noor <span style="color:#FFF9C4;">Energy</span>
+    <div class="row align-items-center justify-content-center g-5">
+
+      <!-- Logo centré -->
+      <div class="col-lg-4 text-center" data-aos="fade-right">
+        {% if noor_partner and noor_partner.logo %}
+          <img src="{{ noor_partner.logo.url }}"
+               alt="{{ noor_partner.name }}"
+               style="max-height:160px;max-width:280px;
+                      object-fit:contain;border-radius:16px;
+                      background:#fff;padding:20px;
+                      box-shadow:0 8px 32px rgba(0,0,0,.12);" />
+        {% else %}
+          <div style="width:160px;height:160px;
+                      background:linear-gradient(135deg,#FF6F00,#FFA000);
+                      border-radius:24px;display:flex;align-items:center;
+                      justify-content:center;margin:0 auto;
+                      box-shadow:0 8px 32px rgba(255,111,0,.3);">
+            <i data-lucide="zap" width="64" style="color:#fff;"></i>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Texte — couleur sombre sur fond clair -->
+      <div class="col-lg-7" data-aos="fade-left">
+        <span style="background:rgba(255,111,0,.15);color:#E65100;
+                     padding:4px 14px;border-radius:100px;font-size:.8rem;
+                     font-weight:700;display:inline-block;margin-bottom:14px;">
+          ⚡ Partenariat Stratégique CFI-TECH
+        </span>
+
+        <h1 style="color:#1A2B3C;font-size:clamp(1.8rem,4vw,2.8rem);
+                   margin-bottom:12px;">
+          {% if noor_partner %}{{ noor_partner.name }}
+          {% else %}Noor Energy{% endif %}
         </h1>
-        <p style="color:rgba(255,255,255,.85);font-size:1.1rem;max-width:500px;margin-bottom:32px;">
-          Votre partenaire de confiance en solutions énergétiques durables — électrification rurale, énergie solaire et installations électriques industrielles au Mali.
-        </p>
-        <div class="d-flex gap-3 flex-wrap">
-          <a href="{% url 'core:contact' %}" class="btn btn-cfi-outline-white btn-lg"><i data-lucide="phone" width="18"></i> Demander un devis</a>
-          <a href="https://wa.me/{{ site_config.whatsapp }}" target="_blank" rel="noopener" class="btn btn-whatsapp btn-lg">WhatsApp</a>
+
+        {% if noor_partner and noor_partner.slogan %}
+          <p style="color:#E65100;font-size:1.1rem;font-weight:600;
+                    margin-bottom:12px;">
+            "{{ noor_partner.slogan }}"
+          </p>
+        {% endif %}
+
+        {% if noor_partner and noor_partner.description %}
+          <div style="color:#455A74;font-size:1rem;line-height:1.7;
+                      margin-bottom:24px;">
+            {{ noor_partner.description|safe }}
+          </div>
+        {% else %}
+          <p style="color:#455A74;font-size:1rem;line-height:1.7;
+                    margin-bottom:24px;">
+            Votre partenaire de confiance en solutions énergétiques durables —
+            électrification rurale, énergie solaire et installations électriques
+            industrielles au Mali.
+          </p>
+        {% endif %}
+
+        <!-- Coordonnées -->
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+          {% if noor_partner and noor_partner.phone %}
+          <a href="tel:{{ noor_partner.phone }}"
+             style="display:flex;align-items:center;gap:6px;
+                    background:#fff;color:#1A2B3C;padding:8px 16px;
+                    border-radius:10px;font-size:.88rem;font-weight:600;
+                    box-shadow:0 2px 8px rgba(0,0,0,.08);">
+            <i data-lucide="phone" width="16" style="color:#FF6F00;"></i>
+            {{ noor_partner.phone }}
+          </a>
+          {% endif %}
+          {% if noor_partner and noor_partner.whatsapp %}
+          <a href="https://wa.me/{{ noor_partner.whatsapp }}"
+             target="_blank" rel="noopener"
+             style="display:flex;align-items:center;gap:6px;
+                    background:#25D366;color:#fff;padding:8px 16px;
+                    border-radius:10px;font-size:.88rem;font-weight:600;">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+            </svg>
+            WhatsApp
+          </a>
+          {% endif %}
+          {% if noor_partner and noor_partner.email %}
+          <a href="mailto:{{ noor_partner.email }}"
+             style="display:flex;align-items:center;gap:6px;
+                    background:#fff;color:#1A2B3C;padding:8px 16px;
+                    border-radius:10px;font-size:.88rem;font-weight:600;
+                    box-shadow:0 2px 8px rgba(0,0,0,.08);">
+            <i data-lucide="mail" width="16" style="color:#FF6F00;"></i>
+            {{ noor_partner.email }}
+          </a>
+          {% endif %}
         </div>
-      </div>
-      <div class="col-lg-5 d-none d-lg-block" data-aos="fade-left">
-        <div style="background:rgba(255,255,255,.1);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.2);border-radius:24px;padding:32px;text-align:center;">
-          <i data-lucide="sun" width="80" style="color:#FFF9C4;"></i>
-          <h3 style="color:var(--white);margin-top:16px;">Solutions Énergétiques Durables</h3>
-          <p style="color:rgba(255,255,255,.7);font-size:.9rem;">Énergie solaire · Électricité · Climatisation</p>
+
+        <!-- Réseaux sociaux -->
+        {% if noor_partner %}
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          {% if noor_partner.facebook_url %}
+          <a href="{{ noor_partner.facebook_url }}" target="_blank" rel="noopener"
+             class="social-btn" style="background:#1877F2;color:#fff;"
+             aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>{% endif %}
+          {% if noor_partner.instagram_url %}
+          <a href="{{ noor_partner.instagram_url }}" target="_blank" rel="noopener"
+             class="social-btn" style="background:#E1306C;color:#fff;"
+             aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>{% endif %}
+          {% if noor_partner.linkedin_url %}
+          <a href="{{ noor_partner.linkedin_url }}" target="_blank" rel="noopener"
+             class="social-btn" style="background:#0A66C2;color:#fff;"
+             aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>{% endif %}
+          {% if noor_partner.tiktok_url %}
+          <a href="{{ noor_partner.tiktok_url }}" target="_blank" rel="noopener"
+             class="social-btn" style="background:#000;color:#fff;"
+             aria-label="TikTok">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.01-.06z"/></svg>
+          </a>{% endif %}
+          {% if noor_partner.website_url %}
+          <a href="{{ noor_partner.website_url }}" target="_blank" rel="noopener"
+             class="btn btn-sm"
+             style="background:#FF6F00;color:#fff;font-weight:600;">
+            <i data-lucide="external-link" width="14"></i> Site web
+          </a>{% endif %}
         </div>
+        {% endif %}
       </div>
     </div>
   </div>
 </section>
 
-<!-- Services -->
+<!-- Services Noor Energy -->
 <section class="section-py">
-<div class="container">
-  <div class="section-header" data-aos="fade-up">
-    <span class="section-label">Domaines d'intervention</span>
-    <h2 class="section-title">Nos <span class="gradient-text">expertises</span></h2>
-    <p class="section-description">Des solutions complètes en énergie et électricité pour vos projets résidentiels, commerciaux et industriels.</p>
-  </div>
-
-  <div class="row g-4 mt-3">
-    {% for service in services %}
-    <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter0 }}00">
-      <div class="noor-service-card">
-        <div class="noor-icon">
-          {% if service.icon == 'solar-panel' %}☀️
-          {% elif service.icon == 'zap' %}⚡
-          {% elif service.icon == 'home' %}🏠
-          {% elif service.icon == 'wind' %}❄️
-          {% elif service.icon == 'activity' %}📊
-          {% else %}🔧{% endif %}
+  <div class="container">
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-label">Domaines d'intervention</span>
+      <h2 class="section-title">Nos <span class="gradient-text">expertises</span></h2>
+    </div>
+    <div class="row g-4 mt-3">
+      {% for service in services %}
+      <div class="col-md-6 col-lg-4" data-aos="fade-up"
+           data-aos-delay="{{ forloop.counter0 }}00">
+        <div class="noor-service-card">
+          <div class="noor-icon">
+            {% if service.icon == 'solar-panel' %}☀️
+            {% elif service.icon == 'zap' %}⚡
+            {% elif service.icon == 'home' %}🏠
+            {% elif service.icon == 'wind' %}❄️
+            {% elif service.icon == 'activity' %}📊
+            {% else %}🔧{% endif %}
+          </div>
+          <h5>{{ service.title }}</h5>
+          <p>{{ service.description }}</p>
         </div>
-        <h5>{{ service.title }}</h5>
-        <p>{{ service.description }}</p>
       </div>
-    </div>
-    {% empty %}
-    {% for item in "Électrification rurale,Éclairage public,Réseau électrique,Énergie solaire,Bâtiments civils & industriels,Audit énergétique,Audit électrique,Climatisation,Installations industrielles"|split:"," %}
-    <div class="col-md-6 col-lg-4" data-aos="fade-up">
-      <div class="noor-service-card">
-        <div class="noor-icon">⚡</div>
-        <h5>{{ item }}</h5>
-        <p>Solution professionnelle Noor Energy – partenaire CFI-TECH.</p>
+      {% empty %}
+      {% for item in "Électrification rurale,Énergie solaire,Réseau électrique,Bâtiments civils,Audit énergétique,Climatisation"|split:"," %}
+      <div class="col-md-6 col-lg-4" data-aos="fade-up">
+        <div class="noor-service-card">
+          <div class="noor-icon">⚡</div>
+          <h5>{{ item }}</h5>
+          <p>Solution professionnelle Noor Energy.</p>
+        </div>
       </div>
+      {% endfor %}
+      {% endfor %}
     </div>
-    {% endfor %}
-    {% endfor %}
-  </div>
 
-  <!-- Avantages -->
-  <div class="row g-4 mt-5" data-aos="fade-up">
-    <div class="col-12"><h3 class="text-center mb-4">Pourquoi choisir <span class="gradient-text">Noor Energy</span> ?</h3></div>
-    <div class="col-md-3 col-6 text-center">
-      <div style="background:var(--blue-pale);border-radius:20px;padding:24px;">
-        <i data-lucide="shield-check" width="36" style="color:var(--blue-mid);"></i>
-        <h6 style="margin-top:12px;font-size:.95rem;">Qualité certifiée</h6>
-      </div>
-    </div>
-    <div class="col-md-3 col-6 text-center">
-      <div style="background:#FFF8E1;border-radius:20px;padding:24px;">
-        <i data-lucide="clock" width="36" style="color:#FF6F00;"></i>
-        <h6 style="margin-top:12px;font-size:.95rem;">Délais respectés</h6>
-      </div>
-    </div>
-    <div class="col-md-3 col-6 text-center">
-      <div style="background:#E8F5E9;border-radius:20px;padding:24px;">
-        <i data-lucide="leaf" width="36" style="color:#2E7D32;"></i>
-        <h6 style="margin-top:12px;font-size:.95rem;">Éco-responsable</h6>
-      </div>
-    </div>
-    <div class="col-md-3 col-6 text-center">
-      <div style="background:#FCE4EC;border-radius:20px;padding:24px;">
-        <i data-lucide="headphones" width="36" style="color:#C62828;"></i>
-        <h6 style="margin-top:12px;font-size:.95rem;">SAV disponible</h6>
+    <!-- CTA -->
+    <div class="text-center mt-5 p-5"
+         style="background:linear-gradient(135deg,#FF6F00,#FFA000);
+                border-radius:24px;"
+         data-aos="fade-up">
+      <h3 style="color:#fff;margin-bottom:10px;">
+        Un projet énergétique ?
+      </h3>
+      <p style="color:rgba(255,255,255,.9);margin-bottom:24px;">
+        Audit gratuit et devis personnalisé sous 48h.
+      </p>
+      <div class="d-flex gap-3 justify-content-center flex-wrap">
+        <a href="{% url 'core:contact' %}"
+           class="btn btn-lg"
+           style="background:#fff;color:#FF6F00;font-weight:700;">
+          <i data-lucide="file-text" width="18"></i> Demander un audit
+        </a>
+        {% if noor_partner and noor_partner.whatsapp %}
+        <a href="https://wa.me/{{ noor_partner.whatsapp }}"
+           target="_blank" rel="noopener"
+           class="btn btn-whatsapp btn-lg">
+          WhatsApp
+        </a>
+        {% else %}
+        <a href="https://wa.me/{{ site_config.whatsapp }}"
+           target="_blank" rel="noopener"
+           class="btn btn-whatsapp btn-lg">
+          WhatsApp
+        </a>
+        {% endif %}
       </div>
     </div>
   </div>
-
-  <!-- CTA -->
-  <div class="text-center mt-5 p-5" style="background:linear-gradient(135deg,#FF6F00,#FFA000);border-radius:28px;" data-aos="fade-up">
-    <h3 style="color:var(--white);margin-bottom:12px;">Un projet énergétique ?</h3>
-    <p style="color:rgba(255,255,255,.85);margin-bottom:28px;">Obtenez un audit gratuit et un devis personnalisé sous 48h.</p>
-    <div class="d-flex gap-3 justify-content-center flex-wrap">
-      <a href="{% url 'core:contact' %}" class="btn btn-cfi-outline-white btn-lg"><i data-lucide="file-text" width="18"></i> Demander un audit</a>
-      <a href="https://wa.me/{{ site_config.whatsapp }}?text=Bonjour%2C%20je%20suis%20intéressé%20par%20les%20services%20Noor%20Energy." target="_blank" rel="noopener" class="btn btn-lg" style="background:var(--white);color:#FF6F00;font-weight:700;">WhatsApp</a>
-    </div>
-  </div>
-</div>
 </section>
+
 {% endblock %}

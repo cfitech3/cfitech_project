@@ -9,4 +9,5 @@ urlpatterns = [
     path('inscription/', views.inscription, name='inscription'),
     path('inscription/succes/<str:reference>/', views.inscription_success, name='inscription_success'),
     path('<slug:slug>/', views.formation_detail, name='detail'),
+    path('partenaires/<slug:slug>/', views.partner_detail, name='partner_detail'),
 ]

@@ -44,15 +44,38 @@ class SiteConfigAdmin(admin.ModelAdmin):
             f'/cfitech-admin/core/siteconfig/{obj.pk}/change/'
         )
 
-
 @admin.register(Partner)
 class PartnerAdmin(admin.ModelAdmin):
-    list_display = ('logo_preview', 'name', 'partner_type',
-                    'is_featured', 'is_noor_energy', 'is_active', 'display_order')
-    list_editable = ('is_featured', 'is_active', 'display_order', 'is_noor_energy')
-    list_filter = ('partner_type', 'is_featured', 'is_noor_energy', 'is_active')
-    search_fields = ('name', 'description')
+    list_display  = ('logo_preview', 'name', 'partner_type',
+                     'phone', 'is_featured', 'is_noor_energy',
+                     'is_active', 'display_order')
+    list_editable = ('is_featured', 'is_active',
+                     'display_order', 'is_noor_energy')
+    list_filter   = ('partner_type', 'is_featured',
+                     'is_noor_energy', 'is_active')
+    search_fields = ('name', 'description', 'slogan')
     prepopulated_fields = {'slug': ('name',)}
+
+    fieldsets = (
+        ('🏢 Identité', {
+            'fields': ('name', 'slug', 'logo', 'partner_type',
+                       'slogan', 'description')
+        }),
+        ('📞 Coordonnées', {
+            'fields': ('phone', 'email', 'address', 'whatsapp')
+        }),
+        ('🌐 Liens web', {
+            'fields': ('website_url', 'facebook_url', 'instagram_url',
+                       'linkedin_url', 'youtube_url', 'tiktok_url')
+        }),
+        ('📋 Services', {
+            'fields': ('services',)
+        }),
+        ('⚙️ Affichage', {
+            'fields': ('is_featured', 'is_noor_energy',
+                       'is_active', 'display_order')
+        }),
+    )
 
     def logo_preview(self, obj):
         if obj.logo:

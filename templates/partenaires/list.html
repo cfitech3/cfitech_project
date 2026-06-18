@@ -43,8 +43,17 @@
         <h3 style="color:var(--white);margin-bottom:10px;">Noor Energy</h3>
         <p style="color:rgba(255,255,255,.7);">Électrification rurale, énergie solaire, installations électriques industrielles. CFI-TECH et Noor Energy unissent leurs expertises pour vous proposer des formations et services complets en énergie.</p>
       </div>
-      <div class="col-lg-4 text-lg-end">
-        <a href="{% url 'core:noor_energy' %}" class="btn btn-lg" style="background:linear-gradient(135deg,#FF6F00,#FFA000);color:#fff;font-weight:700;"><i data-lucide="zap" width="18"></i> Découvrir Noor Energy</a>
+      <div class="d-flex gap-2 justify-content-center mt-3 flex-wrap">
+        <a href="{% url 'core:partner_detail' partner.slug %}"
+          class="btn btn-cfi-primary btn-sm">
+          <i data-lucide="eye" width="14"></i> Découvrir
+        </a>
+        {% if partner.website_url %}
+        <a href="{{ partner.website_url }}" target="_blank"
+          rel="noopener" class="btn btn-outline-cfi btn-sm">
+          <i data-lucide="external-link" width="14"></i> Site web
+        </a>
+        {% endif %}
       </div>
     </div>
   </div>

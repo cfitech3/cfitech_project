@@ -55,39 +55,44 @@ class SiteConfig(models.Model):
 
 
 class Partner(models.Model):
-    """Partenaires de CFI-TECH"""
     PARTNER_TYPES = [
-        ('strategique', 'Partenaire Stratégique'),
-        ('technique', 'Partenaire Technique'),
-        ('academique', 'Partenaire Académique'),
-        ('commercial', 'Partenaire Commercial'),
+        ('strategique',    'Partenaire Stratégique'),
+        ('technique',      'Partenaire Technique'),
+        ('academique',     'Partenaire Académique'),
+        ('commercial',     'Partenaire Commercial'),
         ('institutionnel', 'Partenaire Institutionnel'),
     ]
-    name = models.CharField('Nom du partenaire', max_length=150)
-    slug = models.SlugField(unique=True, blank=True)
-    logo = ProcessedImageField(
-        upload_to='partners/',
-        processors=[ResizeToFit(300, 150)],
-        format='PNG',
-        options={'quality': 90},
-        null=True, blank=True
-    )
-    partner_type = models.CharField('Type', max_length=20, choices=PARTNER_TYPES, default='strategique')
-    description = RichTextField('Description', blank=True)
-    services = models.TextField('Services offerts', blank=True)
-    website_url = models.URLField('Site web', blank=True)
-    facebook_url = models.URLField('Facebook', blank=True)
-    linkedin_url = models.URLField('LinkedIn', blank=True)
-    is_featured = models.BooleanField('Mise en avant', default=False)
+    name           = models.CharField('Nom du partenaire', max_length=150)
+    slug           = models.SlugField(unique=True, blank=True)
+    logo           = models.ImageField(
+                       'Logo', upload_to='partners/',
+                       null=True, blank=True
+                     )
+    partner_type   = models.CharField('Type', max_length=20,
+                       choices=PARTNER_TYPES, default='strategique')
+    slogan         = models.CharField('Slogan', max_length=200, blank=True)
+    description    = RichTextField('Description', blank=True)
+    phone          = models.CharField('Téléphone', max_length=30, blank=True)
+    email          = models.EmailField('Email', blank=True)
+    address        = models.CharField('Adresse', max_length=300, blank=True)
+    services       = models.TextField('Services offerts', blank=True)
+    website_url    = models.URLField('Site web', blank=True)
+    facebook_url   = models.URLField('Facebook', blank=True)
+    instagram_url  = models.URLField('Instagram', blank=True)
+    linkedin_url   = models.URLField('LinkedIn', blank=True)
+    youtube_url    = models.URLField('YouTube', blank=True)
+    tiktok_url     = models.URLField('TikTok', blank=True)
+    whatsapp       = models.CharField('WhatsApp', max_length=30, blank=True)
+    is_featured    = models.BooleanField('Mise en avant', default=False)
     is_noor_energy = models.BooleanField('Noor Energy', default=False)
-    display_order = models.IntegerField('Ordre d\'affichage', default=0)
-    is_active = models.BooleanField('Actif', default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    display_order  = models.IntegerField("Ordre d'affichage", default=0)
+    is_active      = models.BooleanField('Actif', default=True)
+    created_at     = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = 'Partenaire'
+        verbose_name        = 'Partenaire'
         verbose_name_plural = 'Partenaires'
-        ordering = ['display_order', 'name']
+        ordering            = ['display_order', 'name']
 
     def __str__(self):
         return self.name
