@@ -17,4 +17,5 @@ urlpatterns = [
     path('blog/<slug:slug>/', views.blog_detail, name='blog_detail'),
     path('newsletter/inscription/', views.newsletter_subscribe, name='newsletter_subscribe'),
     path('robots.txt', views.robots_txt),
+    path('partenaires/<slug:slug>/', views.partner_detail, name='partner_detail'),
 ]
