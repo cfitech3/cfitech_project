@@ -11,6 +11,9 @@ import requests
 from .models import Domain, Formation, Inscription
 from core.models import SiteConfig
 
+#from core.models import Partner
+
+
 
 def formation_list(request):
     """Liste des formations avec filtrage"""
@@ -287,12 +290,3 @@ def inscription_success(request, reference):
     })
 
 
-def partner_detail(request, slug):
-    """Page détail d'un partenaire"""
-    config  = SiteConfig.get_config()
-    partner = get_object_or_404(Partner, slug=slug, is_active=True)
-    return render(request, 'partenaires/detail.html', {
-        'config':     config,
-        'partner':    partner,
-        'page_title': f'{partner.name} — CFI-TECH',
-    })

@@ -7,6 +7,7 @@ app_name = 'core'
 urlpatterns = [
     path('', views.home, name='home'),
     path('a-propos/', views.about, name='about'),
+    
     path('contact/', views.contact, name='contact'),
     path('faq/', views.faq, name='faq'),
     path('galerie/', views.gallery, name='gallery'),
@@ -18,4 +19,5 @@ urlpatterns = [
     path('newsletter/inscription/', views.newsletter_subscribe, name='newsletter_subscribe'),
     path('robots.txt', views.robots_txt),
     path('partenaires/<slug:slug>/', views.partner_detail, name='partner_detail'),
+    
 ]
